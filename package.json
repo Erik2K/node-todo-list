@@ -1,23 +1,26 @@
 {
-  "name": "todo-list",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Erik2K/node-todo-list.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Erik2K/node-todo-list/issues"
-  },
-  "homepage": "https://github.com/Erik2K/node-todo-list#readme",
-  "dependencies": {
-    "colors": "^1.4.0"
-  }
+	"name": "todo-list",
+	"version": "1.0.0",
+	"description": "",
+	"exports": "./index.js",
+	"type": "module",
+	"scripts": {
+		"start": "node index.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Erik2K/node-todo-list.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/Erik2K/node-todo-list/issues"
+	},
+	"homepage": "https://github.com/Erik2K/node-todo-list#readme",
+	"dependencies": {
+		"colors": "^1.4.0",
+		"inquirer": "^9.1.4",
+		"uuid": "^9.0.0"
+	}
 }

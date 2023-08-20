@@ -1,9 +1,4 @@
-const { read } = require('fs');
-const { resolve } = require('path');
-
-require('colors');
-
-const showMenu = () => {
+export const showMenu = () => {
 	return new Promise((resolve) => {
 		console.clear();
 
@@ -31,7 +26,7 @@ const showMenu = () => {
 	});
 };
 
-const pause = () => {
+export const pause = () => {
 	return new Promise((resolve) => {
 		const readline = require('readline').createInterface({
 			input: process.stdin,
@@ -43,9 +38,4 @@ const pause = () => {
 			resolve(opt);
 		});
 	});
-};
-
-module.exports = {
-	showMenu,
-	pause,
 };
