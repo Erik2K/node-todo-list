@@ -3,7 +3,7 @@ import { Task } from './task.js';
 export class TaskCollection {
 	_collection = {};
 
-	get collectionArr() {
+	collectionArr() {
 		return Object.keys(this._collection).map((key) => {
 			return this._collection[key];
 		});

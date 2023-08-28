@@ -1,34 +1,81 @@
-import 'colors';
-import { TaskCollection } from './src/models/taskCollection.js';
-import { inquirerMenu, pause, readInput } from './src/helpers/inquirer.js';
-import { save, read } from './src/helpers/saveFile.js';
+import 'colors'
+import { mainMenu, customMenu, pause, readInput, confirmation, customMultiSelectMenu } from './src/utils/inquirer-utils.js'
+import { TaskController } from './src/controllers/tasks.js'
 
 const main = async () => {
-	let option = 0;
-	const taskCollection = new TaskCollection();
+  let option = 0
 
-	taskCollection.loadTasksFromArray(read());
+  do {
+    option = await mainMenu()
 
-	do {
-		option = await inquirerMenu();
+    switch (option) {
+      case 1:
+        await TaskController.create({ description: await readInput('Description: ') })
+        break
 
-		switch (option) {
-			case 1:
-				const description = await readInput('Description: ');
-				taskCollection.createTask(description);
-				break;
+      case 2:
+        await TaskController.printAll({})
+        break
 
-			case 2:
-				console.log(taskCollection.collectionArr);
-				break;
-		}
+      case 3:
+        await TaskController.printAll({ completed: true })
+        break
 
-		save(taskCollection.collectionArr);
+      case 4:
+        await TaskController.printAll({ completed: false })
+        break
 
-		await pause();
-	} while (option !== 0);
+      case 5:
+        {
+          const tasks = await TaskController.getAll({ completed: false })
 
-	console.clear();
-};
+          const options = await customMultiSelectMenu(tasks.map((task, i) => {
+            const index = `${i + 1}.`.green
 
-main();
+            return {
+              value: task.id,
+              name: `${index} ${task.description}`
+            }
+          }))
+
+          options.forEach(option => {
+            TaskController.complete({ id: option })
+          })
+        }
+        break
+
+      case 6:
+        {
+          const tasks = await TaskController.getAll({})
+
+          const option = await customMenu(tasks.map((task, i) => {
+            const index = `${i + 1}.`.green
+
+            return {
+              value: task.id,
+              name: `${index} ${task.description}`
+            }
+          }))
+
+          if (option !== 0) {
+            const confirm = await confirmation('are you sure you want to delete the task ?')
+
+            if (confirm) {
+              if (TaskController.delete({ id: option })) {
+                console.log('Task deleted'.green)
+              } else {
+                console.log('The task couldn\'t be removed'.red)
+              }
+            }
+          }
+        }
+        break
+    }
+
+    await pause()
+  } while (option !== 0)
+
+  console.clear()
+}
+
+main()
